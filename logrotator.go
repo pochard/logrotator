@@ -20,3 +20,14 @@ func NewTimeBasedRotator(pattern string, period time.Duration) (*TimeBasedRotato
 
 	return &tw, nil
 }
+
+func NewTimeBasedCleaner(pattern string, maxAge time.Duration) (*TimeBasedCleaner, error) {
+	var tc TimeBasedCleaner
+	tc.pattern = pattern
+	if maxAge < 0{
+		return nil, errors.New(`maxAge must be greater than 0`)
+	}
+	tc.maxAge = maxAge
+
+	return &tc, nil
+}
