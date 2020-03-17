@@ -6,7 +6,7 @@ Import it in your program as:
 ```go
       import "github.com/pochard/logrotator"
 ```
-### API
+## API
 ### pakcage func
 	func NewTimeBasedRotator(pattern string, period time.Duration) (*TimeBasedRotator, error) 
 	func NewTimeBasedCleaner(pattern string, maxAge time.Duration) (*TimeBasedCleaner, error)
