@@ -8,6 +8,7 @@ Import it in your program as:
 ```
 
 ## Write Example
+Rotate a log at a specified time.Duration
 ```go
 package main
 
@@ -64,10 +65,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/robfig/cron/v3"
-	"time"
-	"net/http"
 	"github.com/pochard/logrotator"
+	"github.com/robfig/cron/v3"
+	"net/http"
+	"time"
 )
 
 func main() {
@@ -80,17 +81,18 @@ func main() {
 	c := cron.New()
 	c.AddFunc("5 1 * * *", func() {
 		deleted, err := cleaner.Clean()
-    	if err != nil {
-    		fmt.Printf("%v\n", err)
-    		return
-    	}
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			return
+		}
 
-    	for _, d := range deleted {
-    		fmt.Printf("%s deleted\n", d)
-    	}
+		for _, d := range deleted {
+			fmt.Printf("%s deleted\n", d)
+		}
 	})
 	c.Start()
 
 	http.ListenAndServe(":8080", nil)
 }
+
 ```
