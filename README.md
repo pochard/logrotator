@@ -6,6 +6,17 @@ Import it in your program as:
 ```go
       import "github.com/pochard/logrotator"
 ```
+### API
+### pakcage func
+	func NewTimeBasedRotator(pattern string, period time.Duration) (*TimeBasedRotator, error) 
+	func NewTimeBasedCleaner(pattern string, maxAge time.Duration) (*TimeBasedCleaner, error)
+### type TimeBasedRotator
+	func (tw *TimeBasedRotator) Write(p []byte) (n int, err error)
+	func (tw *TimeBasedRotator) Close() error
+### type TimeBasedCleaner
+	func (cleaner *TimeBasedCleaner) Clean() ([]string, error) 
+
+
 
 ## Write Example
 Rotate a log at a specified time.Duration
