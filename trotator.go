@@ -1,11 +1,12 @@
 package logrotator
 
 import (
-	_ "fmt"
+	_"fmt"
 	strftime "github.com/lestrrat/go-strftime"
 	"github.com/pkg/errors"
 	"io"
 	"os"
+	"path"
 	"sync"
 	"time"
 )
@@ -14,6 +15,7 @@ type TimeBasedRotator struct {
 	timeDiffToUTC int64
 	lastTime      int64
 	period        int64
+	dirname       string
 	filename      string
 	mutex         sync.RWMutex
 	outFile       *os.File
@@ -47,7 +49,13 @@ func (tw *TimeBasedRotator) getFileHandler() (io.Writer, error) {
 	if tw.filename == filename {
 		return tw.outFile, nil
 	}
-	//fmt.Printf("Rotate filename=%s\n", filename)
+	//fmt.Printf("Rotate filename=%s %s\n", filename, path.Dir(filename))
+	dirname := path.Dir(filename)
+	if tw.dirname != dirname {
+		os.MkdirAll(path.Dir(filename),os.ModePerm)
+		tw.dirname = dirname
+	}
+
 	fh, err := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return nil, errors.Errorf("failed to open file %s: %s", tw.pattern, err)
